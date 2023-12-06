@@ -1,13 +1,10 @@
-* {
+ *{
     box-sizing: border-box;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-        Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #fafafa;
+    font-family:Roboto;
+    background-color: #f1f1f1;
     color: #212121;
     line-height: 1.5;
 }
@@ -20,6 +17,7 @@ img {
 
 h1 {
     margin: 0;
+    color: #0f1010;
 }
 
 .is-hidden {
@@ -37,43 +35,26 @@ h1 {
 
 .breed-select {
     display: none;
-    max-width: 400px;
+    max-width: 500px;
     margin: auto;
 }
 
 .loader {
     font-size: 0;
     position: relative;
-    margin: 20% auto;
-    width: 250px;
     display: flex;
     justify-content: space-between;
 }
 
-.loader::after,
-.loader::before {
-    content: '';
-    display: inline-block;
-    width: 80px;
-    height: 100px;
-    background-color: #e5f3f2;
-    background-image: radial-gradient(circle 14px, #0d161b 100%, transparent 0);
-    background-repeat: no-repeat;
-    border-radius: 50%;
-    border: 1px solid #0d161b;
-    animation: eyeMove 10s infinite, blink 10s infinite;
-}
 
-
-.cat-info {
-    margin-top: 20px;
-    padding: 20px;
+ .cat-info {
+    margin-top: 15px;
+    padding: 30px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 40px;
-    background-color: #e5f3f2;
-    border: 1px solid #0d161b;
+    background-color:#e8e1e2;
+    border: 1px solid #d3d3d3;
 }
 
 .box-img {
@@ -83,4 +64,9 @@ h1 {
 
 .box {
     width: 400px;
+    padding: 20px;
 }
+
+.error {
+    color: rgb(100, 98, 100);
+}  

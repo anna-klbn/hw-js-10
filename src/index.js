@@ -1,4 +1,8 @@
-// import './css/styles.css';
+import { fetchBreeds, fetchCatByBreed } from "./cat-api";
+import './css/styles.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import SlimSelect from 'slim-select'
+import 'slim-select/dist/slimselect.css';
 
 
 
@@ -8,23 +12,9 @@ const loader = document.querySelector('.loader');
 const info = document.querySelector('.cat-info');
 
 
-
-const url = "https://api.thecatapi.com/v1";
-const api_key = "live_nBcdwsZCOeUWf4vXmur3MVuwar83P0nhjuBSI8o7dFRduj5FItkahjYz2ItOkE5m";
-
-
-// Коллекция пород
-function fetchBreeds() {
-    return fetch(`${url}/breeds?api_key=${api_key}`).then(response => response.json());
-       
-};
-
-
-// Информация о коте
-function fetchCatByBreed(breedId) {
-    return fetch(`${url}/images/search?api_key=${api_key}&breed_ids=${breedId}`).then(response => response.json());
-       
-}
+loader.classList.replace('loader', 'is-hidden');
+error.classList.add('is-hidden');
+info.classList.add('is-hidden');
 
 let arrBreedsId = [];
 
@@ -33,23 +23,38 @@ fetchBreeds()
     data.forEach(element => {
         arrBreedsId.push({text:element.name, value:element.id});
     });
+      new SlimSelect({
+        select: select,
+        data: arrBreedsId
+    });
  })
-    .catch(onFetchError);
+.catch(onFetchError);
 
 select.addEventListener('change', onSelectBreed);
 
 function onSelectBreed(event) {
     const breedId = event.currentTarget.value;
+
     fetchCatByBreed(breedId)
         .then(data => {
+            loader.classList.replace('loader', 'is-hidden');
+            select.classList.remove('is-hidden');
+            
       const { url, breeds } = data[0];
         
-        divCatInfo.innerHTML = `<div class="box-img"><img src="${url}" alt="${breeds[0].name}" width="400"/></div><div class="box"><h1>${breeds[0].name}</h1><p>${breeds[0].description}</p><p><h2>Temperament:</h2> ${breeds[0].temperament}</p></div>`
-        divCatInfo.classList.remove('is-hidden');
+        info.innerHTML = `<div class="box-img"><img src="${url}" alt="${breeds[0].name}" width="400"/></div><div class="box"><h1>${breeds[0].name}</h1><p>${breeds[0].description}</p><p><h2>Temperament:</h2> ${breeds[0].temperament}</p></div>`
+        info.classList.remove('is-hidden');
+            
     })
     .catch(onFetchError);
 };
 
 function onFetchError(error) {
-    alert('Oops! Something went wrong! Try reloading the page or select another cat breed!')
-}
+    select.classList.remove('is-hidden');
+    loader.classList.replace('loader', 'is-hidden');
+
+    Notify.failure('Oops! Something went wrong! Try reloading the page or select another cat breed!', {
+        timeout: 3000,
+        fontSize: '35px'
+    });
+};
